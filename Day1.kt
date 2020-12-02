@@ -10,10 +10,30 @@ fun main(args: Array<String>) {
         val value = it.toIntOrNull()
         value?.let {
             input[value] = 1
-            if (input[MAX - value] == 1) {
-                print("${value * (MAX - value)}")
+        }
+    }
+
+    input.forEachIndexed { index, i ->
+        if (i == 1) {
+            val pair = search(MAX - index, input)
+            pair?.let {
+                print("${index * pair.first * pair.second}")
                 exitProcess(0)
             }
         }
     }
+
+}
+
+
+
+fun search(sum: Int, input: IntArray, exclude: IntArray? = null): Pair<Int, Int>? {
+    input.forEachIndexed { index, i ->
+
+        if (i == 1 && sum - index >= 0 && input[sum - index] == 1) {
+            return Pair(index, sum - index)
+        }
+    }
+
+    return null
 }
